@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent-bridge-template/claim",
+  "title": "Task claim (claims/<ID>.claim, flat YAML)",
+  "type": "object",
+  "required": ["owner", "claimed_at", "eta", "repo"],
+  "additionalProperties": false,
+  "properties": {
+    "owner": {"type": "string", "enum": ["Lead", "Partner", "Owner"]},
+    "claimed_at": {"type": "string", "format": "date-time"},
+    "eta": {"type": "string", "minLength": 1, "description": "ISO date-time or a short plain estimate such as '2h'"},
+    "repo": {"type": "string", "minLength": 1, "description": "repo the work happens in, e.g. ~/code/example-app"},
+    "status_at": {"type": "string", "format": "date-time", "description": "last STATUS change; set by `bridge note`"},
+    "released_at": {"type": "string", "format": "date-time", "description": "set by release or done; the claim is then free"}
+  }
+}

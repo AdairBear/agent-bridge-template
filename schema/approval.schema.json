@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent-bridge-template/approval",
+  "title": "the Owner's approval (approvals/<A-ID>.approval, flat YAML)",
+  "type": "object",
+  "required": ["id", "scope", "granted_by", "recorded_by", "granted_at", "expires_at", "single_use", "request", "quote"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^A-\\d{8}-\\d{6}-[0-9A-F]{4}$", "description": "must match the file name"},
+    "scope": {"type": "string", "minLength": 1, "description": "the exact action approved; checked word for word"},
+    "granted_by": {"type": "string", "description": "always the Owner"},
+    "recorded_by": {"type": "string", "enum": ["Lead", "Partner", "Owner"]},
+    "granted_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time", "description": "after granted_at, at most 7 days later"},
+    "single_use": {"type": "string", "enum": ["true"]},
+    "request": {"type": "string", "pattern": "^(R-\\d{8}-\\d{6}-[0-9A-F]{4}|-)$"},
+    "quote": {"type": "string", "minLength": 1, "description": "the Owner's own words"},
+    "chat_time": {"type": "string", "format": "date-time", "description": "when the Owner said it; required if Partner recorded it"},
+    "consumed_by": {"type": "string", "enum": ["Lead", "Partner", "Owner"]},
+    "consumed_at": {"type": "string", "format": "date-time"}
+  }
+}

@@ -1,0 +1,8 @@
+#!/bin/sh
+# Installed by: git config core.hooksPath hooks
+# Blocks the commit if the secret scan finds anything, then checks the staged bridge files are well formed.
+# Only staged files: Partner, Lead and automation all write here, and one writer's bad file must not block another
+# writer's good commit. `validate` (full) still runs on every pull and reports to inbox-lead.
+root=$(git rev-parse --show-toplevel)
+sh "$root/tools/secret-scan.sh" --staged || exit 1
+python3 "$root/tools/bridge.py" validate --staged >/dev/null || { python3 "$root/tools/bridge.py" validate --staged; exit 1; }
